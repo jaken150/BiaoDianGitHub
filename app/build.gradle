@@ -10,17 +10,49 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        resValue "string", "tray__authority", "${applicationId}.tray"
+    }
+    //签名
+    signingConfigs {
+        debug {
+            storeFile file("/Users/icarte/Documents/studio_projects/android_yctcooperaterecharge/app/debugA84E.keystore")
+        }
     }
     buildTypes {
+        debug {
+            buildConfigField "boolean", "DEBUG_VERSION", "true"
+        }
         release {
+            buildConfigField "boolean", "DEBUG_VERSION", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+repositories {
+    jcenter()//ultimaterecyclerview
+    maven { url "http://dl.bintray.com/jjhesk/maven" }//ultimaterecyclerview
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'net.grandcentrix.tray:tray:0.10.0'
+    compile 'com.alibaba:fastjson:1.1.46'
+    compile 'com.beardedhen:androidbootstrap:2.2.0'
+    compile 'com.hkm.ui:ultimaterecyclerview:0.5.0'
+    compile 'com.github.orhanobut:logger:1.12'
+    compile 'com.roughike:bottom-bar:1.3.1'
+    compile 'com.kbeanie:multipicker:1.1.0@aar'
+    compile 'cn.pedant.sweetalert:library:1.3'
 }
