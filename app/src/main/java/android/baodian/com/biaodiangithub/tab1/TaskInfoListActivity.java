@@ -88,7 +88,7 @@ public class TaskInfoListActivity extends AppCompatActivity {
                                 pDialog.dismiss();
                             try {
                                 GetTaskInfoResp respObj = JSON.parseObject(resp, GetTaskInfoResp.class);
-                                if (respObj.getErrorCode() != 0) {
+                                if (!respObj.checkErrorCode()) {
                                     pDialog.setTitleText(respObj.getErrorMsg());
                                     pDialog.show();
                                     return;

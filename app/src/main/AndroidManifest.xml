@@ -4,7 +4,7 @@
     package="android.baodian.com.biaodiangithub">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MainApp"
@@ -27,7 +27,8 @@
             android:name=".tab1.TaskInfoListActivity"
             android:label="@string/title_activity_task_info_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".tab1.TaskSubmitActivity"></activity>
+        <activity android:name=".tab1.TaskSubmitActivity" />
+        <activity android:name=".baesclass.BaseActivity"></activity>
     </application>
 
 </manifest>

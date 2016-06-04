@@ -4,6 +4,12 @@ import android.app.Application;
 import android.baodian.com.biaodiangithub.util.DL;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -34,6 +40,20 @@ public class MainApp extends Application{
 //		MobclickAgent.setDebugMode(true);
 //		AppConstant.AddShortCut(this);
 //		DL.log("MainApp","umeng getDeviceInfo = "+getDeviceInfo(getApplicationContext()));
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
+                showImageForEmptyUri(R.mipmap.ic_default_adimage)
+                .cacheInMemory(true).cacheOnDisk(true).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext()).defaultDisplayImageOptions(defaultOptions)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .memoryCache(new WeakMemoryCache())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build()
+                ;
+        ImageLoader.getInstance().init(config);
     }
 
     public static MainApp getInstance() {

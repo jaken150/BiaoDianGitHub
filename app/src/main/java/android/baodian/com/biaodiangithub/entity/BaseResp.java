@@ -33,4 +33,10 @@ public class BaseResp {
     public void setApi(String api) {
         this.api = api;
     }
+
+    public boolean checkErrorCode(){
+        if (ErrorCode == 0)
+            return true;
+        else return false;
+    }
 }
