@@ -135,8 +135,10 @@ public class TaskSubmitActivity extends AppCompatActivity {
                     pDialog.show();
                     JSONObject jsonObject = new JSONObject();
                     // TODO: 6/4/16
-                    jsonObject.put("phone", "13763319124");
                     jsonObject.put("taskid", "123456789");
+                    jsonObject.put("shop", "shop_b");
+                    jsonObject.put("taskuserphone", "13763319124");
+                    jsonObject.put("submitterphone", "13763319124");
                     DL.log(TAG, "mPath1 = " + mPath1);
                     if (mPath1 != null && mPath1.length() > 0)
                         jsonObject.put("image1", bitmaptoString(bitmap1));
@@ -155,6 +157,7 @@ public class TaskSubmitActivity extends AppCompatActivity {
                     MainApp.getInstance().okHttpPost(AppConstant.URL_SUMBIT_TASK, jsonObject.toString(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
+
                             pDialog.setTitleText("系统繁忙，请稍候再试");
                             DL.log(TAG, "onFailure");
                         }
@@ -181,6 +184,7 @@ public class TaskSubmitActivity extends AppCompatActivity {
                                         pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                pDialog.cancel();
                                                 finish();
                                             }
                                         });

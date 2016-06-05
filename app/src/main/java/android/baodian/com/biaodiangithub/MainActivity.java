@@ -2,11 +2,15 @@ package android.baodian.com.biaodiangithub;
 
 import android.baodian.com.biaodiangithub.tab1.Fragment1;
 import android.baodian.com.biaodiangithub.tab2.Fragment2;
+import android.baodian.com.biaodiangithub.tab4.Fragment4;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.roughike.bottombar.BottomBar;
@@ -19,16 +23,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private BottomBar mBottomBar;
-    private List<Fragment> mFragmentList;
     private ViewPager mViewPager;
     private AppPreferences appPreferences;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
+        actionBar.setTitle("宝典");
         initComponent(savedInstanceState);
-
     }
 
     private void initComponent(Bundle savedInstanceState) {
@@ -44,18 +50,22 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItemId) {
                             case R.id.tab0:
                                 mViewPager.setCurrentItem(0);
+                                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
                                 break;
                             case R.id.tab1:
                                 mViewPager.setCurrentItem(1);
+                                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_primary)));
                                 //一旦进入这个页面则隐藏未读消息提示
 //                                unreadMessage.hide();
 //                                unreadMessage.setAutoShowAfterUnSelection(false);
                                 break;
                             case R.id.tab2:
                                 mViewPager.setCurrentItem(2);
+                                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_info)));
                                 break;
                             case R.id.tab3:
                                 mViewPager.setCurrentItem(3);
+                                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_secondary_border)));
                                 break;
                         }
                     }
@@ -67,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         // 给不同的tab设置颜色
-        mBottomBar.mapColorForTab(0, "#d9534f");
-        mBottomBar.mapColorForTab(1, "#468CC9");
-        mBottomBar.mapColorForTab(2, "#609E79");
-        mBottomBar.mapColorForTab(3, "#9B9B9B");
+        mBottomBar.mapColorForTab(0, "#d9534f");//bootstrap_brand_danger
+        mBottomBar.mapColorForTab(1, "#0275d8");//bootstrap_brand_primary
+        mBottomBar.mapColorForTab(2, "#5bc0de");//bootstrap_brand_info
+        mBottomBar.mapColorForTab(3, "#cccccc");//bootstrap_brand_secondary_border
     }
 
     private void initListen() {
@@ -87,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化ViewPager
     private void initViewPager() {
-        mFragmentList = new ArrayList<>();
-        mFragmentList.add(new Fragment1());
-        mFragmentList.add(new Fragment2());
-        mFragmentList.add(new Fragment1());
-        mFragmentList.add(new Fragment1());
+        MainApp.getInstance().mFragmentList = new ArrayList<>();
+        MainApp.getInstance().mFragmentList.add(new Fragment1());
+        MainApp.getInstance().mFragmentList.add(new Fragment2());
+        MainApp.getInstance().mFragmentList.add(new Fragment1());
+        MainApp.getInstance().mFragmentList.add(new Fragment4());
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -109,18 +119,22 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case R.id.tab0:
                         mViewPager.setCurrentItem(0);
+                        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
                         break;
                     case R.id.tab1:
                         mViewPager.setCurrentItem(1);
+                        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_primary)));
                         //一旦进入这个页面则隐藏未读消息提示
 //                        unreadMessage.hide();
 //                        unreadMessage.setAutoShowAfterUnSelection(false);
                         break;
                     case R.id.tab2:
                         mViewPager.setCurrentItem(2);
+                        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_info)));
                         break;
                     case R.id.tab3:
                         mViewPager.setCurrentItem(3);
+                        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_secondary_border)));
                         break;
                 }
             }
@@ -134,12 +148,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return mFragmentList.get(position);
+                return MainApp.getInstance().mFragmentList.get(position);
             }
 
             @Override
             public int getCount() {
-                return mFragmentList.size();
+                return MainApp.getInstance().mFragmentList.size();
             }
         });
     }

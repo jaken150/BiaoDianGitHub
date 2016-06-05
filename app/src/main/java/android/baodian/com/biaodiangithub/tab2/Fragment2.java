@@ -2,9 +2,8 @@ package android.baodian.com.biaodiangithub.tab2;
 
 import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.R;
-import android.baodian.com.biaodiangithub.entity.GetTaskInfoResp;
-import android.baodian.com.biaodiangithub.model.TaskInfo;
-import android.baodian.com.biaodiangithub.tab1.TaskInfoAdapter;
+import android.baodian.com.biaodiangithub.entity.GetTaskReviewResp;
+import android.baodian.com.biaodiangithub.model.TaskReview;
 import android.baodian.com.biaodiangithub.util.AppConstant;
 import android.baodian.com.biaodiangithub.util.DL;
 import android.content.Context;
@@ -43,8 +42,8 @@ public class Fragment2 extends Fragment {
     private LinearLayoutManager mLinearLayoutManager;
     private SweetAlertDialog pDialog;
     private Handler mHandler = new Handler(Looper.myLooper());
-    private TaskInfoAdapter mAdapter;
-    private List<TaskInfo> mList = new ArrayList<>();
+    private TaskReviewAdapter mAdapter;
+    private List<TaskReview> mList = new ArrayList<>();
     private int mPage = 1;
     private int mPageSize = 10;
     private boolean mIsLoadmoreNow = false;
@@ -77,10 +76,17 @@ public class Fragment2 extends Fragment {
             json.put("phone", "13763319124");
 //            json.put("page", mPage);
 //            json.put("pagesize", mPageSize);
-            MainApp.getInstance().okHttpPost(AppConstant.URL_GET_TASK_INFO, json.toString(), new Callback() {
+            pDialog.show();
+            MainApp.getInstance().okHttpPost(AppConstant.URL_GET_TASK_REVIEW, json.toString(), new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    DL.log(TAG, "onFailure:" + e.toString());
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            pDialog.dismiss();
+                            DL.toast(mContext,"网络异常");
+                        }
+                    });
                 }
 
                 @Override
@@ -91,13 +97,13 @@ public class Fragment2 extends Fragment {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (pDialog.isShowing())
-                                pDialog.dismiss();
+                            pDialog.dismiss();
                             try {
-                                GetTaskInfoResp respObj = JSON.parseObject(resp, GetTaskInfoResp.class);
+                                GetTaskReviewResp respObj = JSON.parseObject(resp, GetTaskReviewResp.class);
                                 if (respObj.getErrorCode() != 0) {
-                                    pDialog.setTitleText(respObj.getErrorMsg());
-                                    pDialog.show();
+//                                    pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+//                                    pDialog.setTitleText(respObj.getErrorMsg());
+//                                    pDialog.show();
                                     return;
                                 }
                                 DL.log(TAG, "getOrder().size() = " + respObj.getData().size());
@@ -114,7 +120,7 @@ public class Fragment2 extends Fragment {
                                         mListView.reenableLoadmore();
                                         mAdapter.enableLoadMore(true);
                                     }
-                                    for (TaskInfo item : respObj.getData()) {
+                                    for (TaskReview item : respObj.getData()) {
 //                                    if (mIsRefreshNew && DL.DEBUGVERSION)
 //                                        orderInfo.setCardnum(orderInfo.getCardnum() + "刷新标志");
                                         mAdapter.insertLastInternal(mList, item);
@@ -163,7 +169,7 @@ public class Fragment2 extends Fragment {
     private void initListView() {
         mListView = (UltimateRecyclerView) mView.findViewById(R.id.ultimate_recycler_view);
         mListView.setHasFixedSize(false);
-        mAdapter = new TaskInfoAdapter(mList);
+        mAdapter = new TaskReviewAdapter(mList);
         mLinearLayoutManager = new LinearLayoutManager(mContext);
         mListView.setLayoutManager(mLinearLayoutManager);
 

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">BiaoDianGitHub</string>
-    <string name="title_activity_task_info_list">TaskInfoListActivity</string>
+    <string name="app_name">宝典</string>
+    <string name="title_activity_task_info_list">任务详情</string>
 </resources>

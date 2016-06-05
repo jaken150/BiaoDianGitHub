@@ -1,7 +1,9 @@
 package android.baodian.com.biaodiangithub;
 
 import android.app.Application;
+import android.baodian.com.biaodiangithub.model.AppUser;
 import android.baodian.com.biaodiangithub.util.DL;
+import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -12,7 +14,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.orhanobut.logger.Logger;
 
+import net.grandcentrix.tray.AppPreferences;
+
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -20,7 +25,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class MainApp extends Application{
+public class MainApp extends Application {
 
     private OkHttpClient okHttpClient;
     public MainActivity mMainAC;
@@ -28,9 +33,9 @@ public class MainApp extends Application{
     public String Channel_Code;
     public String User_Id;
     public String Channel_Key;
-
+    public AppPreferences appPreferences;
     private static MainApp sInstance;
-
+    public List<Fragment> mFragmentList;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,6 +45,7 @@ public class MainApp extends Application{
 //		MobclickAgent.setDebugMode(true);
 //		AppConstant.AddShortCut(this);
 //		DL.log("MainApp","umeng getDeviceInfo = "+getDeviceInfo(getApplicationContext()));
+        appPreferences = new AppPreferences(getApplicationContext());
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
                 showImageForEmptyUri(R.mipmap.ic_default_adimage)
@@ -51,8 +57,7 @@ public class MainApp extends Application{
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
                 .memoryCache(new WeakMemoryCache())
-                .tasksProcessingOrder(QueueProcessingType.LIFO).build()
-                ;
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         ImageLoader.getInstance().init(config);
     }
 
@@ -81,6 +86,73 @@ public class MainApp extends Application{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //缓存用户状态
+    public void setPhone(String phone) {
+        appPreferences.put("PHONE", phone);
+    }
+
+    public String getPhone() {
+        return appPreferences.getString("PHONE", "");
+    }
+
+    public void setQQ(String QQ) {
+        appPreferences.put(getPhone() + "QQ", QQ);
+    }
+
+    public String getQQ() {
+        return appPreferences.getString(getPhone() + "QQ", "");
+    }
+
+    public void setTB1(String TB1) {
+        appPreferences.put(getPhone() + "TB1", TB1);
+    }
+
+    public String getTB1() {
+        return appPreferences.getString(getPhone() + "TB1", "");
+    }
+
+    public void setTB2(String TB2) {
+        appPreferences.put(getPhone() + "TB2", TB2);
+    }
+
+    public String getTB2() {
+        return appPreferences.getString(getPhone() + "TB2", "");
+    }
+
+    public void setTB3(String TB3) {
+        appPreferences.put(getPhone() + "TB3", TB3);
+    }
+
+    public String getTB3() {
+        return appPreferences.getString(getPhone() + "TB3", "");
+    }
+
+    public void setCoins(int coins) {
+        appPreferences.put(getPhone() + "TB3", coins);
+    }
+
+    public int getCoins() {
+        return appPreferences.getInt(getPhone() + "TB3", 0);
+    }
+
+    public void logout() {
+        setPhone("");
+        setQQ("");
+        setTB1("");
+        setTB2("");
+        setTB3("");
+        setCoins(0);
+    }
+
+    public void login(AppUser appUser){
+        setPhone(appUser.getPhone());
+        setQQ(appUser.getQq());
+        setTB1(appUser.getTb1());
+        setTB2(appUser.getTb2());
+        setTB3(appUser.getTb3());
+        setCoins(appUser.getCoins());
     }
 
     public void exit() {

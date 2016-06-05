@@ -15,65 +15,75 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:src="@mipmap/ic_launcher"
-            app:bootstrapBrand="primary"
-            app:hasBorder="true"
-            />
+            android:padding="20dp"/>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
                 android:id="@+id/et_phone"
-                android:hint="请输入手机号"
-                android:textSize="20sp"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_weight="1"
+                android:hint="请输入手机号"
+                android:textSize="20sp"
                 app:bootstrapBrand="success"
                 app:roundedCorners="true" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <com.beardedhen.androidbootstrap.BootstrapEditText
                 android:id="@+id/et_pwd"
-                android:hint="请输入密码"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:hint="请输入密码"
+                android:textSize="20sp"
                 app:bootstrapBrand="success"
                 app:roundedCorners="true" />
 
         </LinearLayout>
 
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_login"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:text="  登录  "
-            android:textSize="20sp"
-            app:bootstrapBrand="primary"
             app:bootstrapSize="xl"
-            app:roundedCorners="true"
-            />
+            app:bootstrapBrand="primary"
+            app:roundedCorners="true" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_register"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="  注册  "
+            app:bootstrapSize="xl"
+            app:bootstrapBrand="success"
+            app:showOutline="true"
+            app:roundedCorners="true" />
     </LinearLayout>
 
 </RelativeLayout>
