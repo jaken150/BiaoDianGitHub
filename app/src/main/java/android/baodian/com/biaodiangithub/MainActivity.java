@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
         actionBar.setTitle("宝典");
-        initComponent(savedInstanceState);
+        initComponent(savedInstanceState);//test github
     }
 
     private void initComponent(Bundle savedInstanceState) {
