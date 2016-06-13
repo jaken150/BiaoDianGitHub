@@ -2,7 +2,6 @@ package android.baodian.com.biaodiangithub.tab1;
 
 import android.baodian.com.biaodiangithub.R;
 import android.baodian.com.biaodiangithub.model.TaskInfo;
-import android.baodian.com.biaodiangithub.util.DL;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +27,10 @@ public class TaskInfoAdapter extends UltimateViewAdapter {
     public class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         private LinearLayout lly;
-        private TextView shopname;
-        private TextView shop;
+        private TextView shop_name;
+        private TextView item_name;
+        private TextView task_type;
+        private TextView item_link;
         private ImageView platform;
         private TextView key_word_phone;
 
@@ -37,8 +38,10 @@ public class TaskInfoAdapter extends UltimateViewAdapter {
             super(itemView);
             if (isNormal) {
                 lly = (LinearLayout) itemView.findViewById(R.id.lly);
-                shopname = (TextView) itemView.findViewById(R.id.tv_shopname);
-                shop = (TextView) itemView.findViewById(R.id.tv_shop);
+                shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
+                item_name = (TextView) itemView.findViewById(R.id.tv_item_name);
+                item_link = (TextView) itemView.findViewById(R.id.tv_item_link);
+                task_type = (TextView) itemView.findViewById(R.id.tv_task_type);
                 platform = (ImageView) itemView.findViewById(R.id.iv_platform);
                 key_word_phone = (TextView) itemView.findViewById(R.id.tv_key_word_phone);
             }
@@ -83,14 +86,16 @@ public class TaskInfoAdapter extends UltimateViewAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == UltimateViewAdapter.VIEW_TYPES.NORMAL) {
             ViewHolder orderViewHolder = (ViewHolder) holder;
-            orderViewHolder.shopname.setText("店铺名:"+mList.get(position).getShop_name());
-            orderViewHolder.shop.setText("链接:"+mList.get(position).getShop());
+            orderViewHolder.shop_name.setText(mList.get(position).getShop_name());
+            orderViewHolder.item_link.setText("链接:"+mList.get(position).getItem_link());
+            orderViewHolder.item_name.setText("店铺名:"+mList.get(position).getItem_name());
+            orderViewHolder.task_type.setText(mList.get(position).getTask_type_cn());
             if(mList.get(position).getPlatform().equals("taobao")){
                 orderViewHolder.platform.setImageResource(R.mipmap.tao);
             }else {
                 orderViewHolder.platform.setImageResource(R.mipmap.tmall);
             }
-            orderViewHolder.key_word_phone.setText("关键字:"+mList.get(position).getKey_word_phone());
+            orderViewHolder.key_word_phone.setText(mList.get(position).getKey_word_phone());
             orderViewHolder.lly.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,4 +1,4 @@
-package android.baodian.com.biaodiangithub.tab2;
+package android.baodian.com.biaodiangithub.tab3;
 
 import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.R;
@@ -36,7 +36,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class Fragment2 extends Fragment {
+public class Fragment3 extends Fragment {
     private Context mContext;
     private String TAG = "Fragment3";
     private UltimateRecyclerView mListView;
@@ -66,7 +66,7 @@ public class Fragment2 extends Fragment {
         pDialog.setTitleText("请稍候");
         pDialog.setCancelable(true);
         if (mList == null || mList.size() == 0) {
-            httpPostQuery();
+//            httpPostQuery();
         }
     }
 

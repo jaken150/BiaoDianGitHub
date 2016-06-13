@@ -12,12 +12,7 @@ android {
         versionName "1.0"
         resValue "string", "tray__authority", "${applicationId}.tray"
     }
-    //签名
-    signingConfigs {
-        debug {
-            storeFile file("/Users/icarte/Documents/studio_projects/android_yctcooperaterecharge/app/debugA84E.keystore")
-        }
-    }
+
     buildTypes {
         debug {
             buildConfigField "boolean", "DEBUG_VERSION", "true"

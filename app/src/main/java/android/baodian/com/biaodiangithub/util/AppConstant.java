@@ -6,7 +6,7 @@ import net.grandcentrix.tray.AppPreferences;
 
 public class AppConstant {
     public static boolean DEBUGVERSION = BuildConfig.DEBUG_VERSION;
-    public static String HOST_URL = "http://192.168.1.103:5000";
+    public static String HOST_URL = "http://192.168.1.105:5000";
 
     public static String URL_GET_SMS = HOST_URL+"/api/sms";
     public static String URL_GET_TASK_INFO = HOST_URL+"/api/get_task_info";

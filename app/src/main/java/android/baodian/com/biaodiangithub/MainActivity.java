@@ -2,6 +2,7 @@ package android.baodian.com.biaodiangithub;
 
 import android.baodian.com.biaodiangithub.tab1.Fragment1;
 import android.baodian.com.biaodiangithub.tab2.Fragment2;
+import android.baodian.com.biaodiangithub.tab3.Fragment3;
 import android.baodian.com.biaodiangithub.tab4.Fragment4;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,14 +13,20 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomBar mBottomBar;
@@ -100,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         MainApp.getInstance().mFragmentList = new ArrayList<>();
         MainApp.getInstance().mFragmentList.add(new Fragment1());
         MainApp.getInstance().mFragmentList.add(new Fragment2());
-        MainApp.getInstance().mFragmentList.add(new Fragment1());
+        MainApp.getInstance().mFragmentList.add(new Fragment3());
         MainApp.getInstance().mFragmentList.add(new Fragment4());
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
