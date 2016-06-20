@@ -98,6 +98,7 @@ public class Fragment2 extends Fragment {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
+                            
                             pDialog.dismiss();
                             try {
                                 GetTaskReviewResp respObj = JSON.parseObject(resp, GetTaskReviewResp.class);
@@ -109,10 +110,10 @@ public class Fragment2 extends Fragment {
                                 }
                                 DL.log(TAG, "getOrder().size() = " + respObj.getData().size());
                                 if (respObj.getData().size() > 0) {
-//                            if (mIsRefreshNew) {//下拉刷新，先清除list里的数据
-//                                mList.clear();
-//                                mAdapter.notifyDataSetChanged();
-//                            }
+                                    if (mIsRefreshNew) {//下拉刷新，先清除list里的数据
+                                        mList.clear();
+                                        mAdapter.notifyDataSetChanged();
+                                    }
                                     if (respObj.getData().size() < mPageSize) {
                                         //当返回数据小于pagesize时，禁止自动加载
                                         mListView.disableLoadmore();
@@ -121,10 +122,13 @@ public class Fragment2 extends Fragment {
                                         mListView.reenableLoadmore();
                                         mAdapter.enableLoadMore(true);
                                     }
-                                    for (TaskReview item : respObj.getData()) {
+
+                                    if(mList.size() == 0){// TODO: 2016/6/20 增加page pagesize后不应该list为0才增加数据
+                                        for (TaskReview item : respObj.getData()) {
 //                                    if (mIsRefreshNew && DL.DEBUGVERSION)
 //                                        orderInfo.setCardnum(orderInfo.getCardnum() + "刷新标志");
-                                        mAdapter.insertLastInternal(mList, item);
+                                            mAdapter.insertLastInternal(mList, item);
+                                        }
                                     }
                                     DL.log(TAG, "getItemCount = " + mAdapter.getItemCount());
                                     DL.log(TAG, "getItemViewType = " + mAdapter.getItemViewType(mAdapter.getItemCount() - 1));

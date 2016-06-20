@@ -5,6 +5,7 @@ import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.R;
 import android.baodian.com.biaodiangithub.entity.BaseResp;
 import android.baodian.com.biaodiangithub.entity.GetTaskInfoResp;
+import android.baodian.com.biaodiangithub.model.TaskInfo;
 import android.baodian.com.biaodiangithub.util.AppConstant;
 import android.baodian.com.biaodiangithub.util.DL;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -52,19 +54,22 @@ import okhttp3.Response;
 public class TaskSubmitActivity extends AppCompatActivity {
 
     private String TAG = "TaskSubmitActivity";
-    private ImageView iv_upoad1, iv_upoad2, iv_upoad3;
+    private ImageView iv_upoad1, iv_upoad2, iv_upoad3,iv_upoad4,iv_upoad5;
     //    private Button btn_submit;
     private ImagePicker imagePicker;
     private int mPosition = 1;
-    private String mPath1 = null, mPath2 = null, mPath3 = null;
+    private String mPath1 = null, mPath2 = null, mPath3 = null,mPath4 = null,mPath5 = null;
     private SweetAlertDialog pDialog;
-    private Bitmap bitmap1, bitmap2, bitmap3;
+    private Bitmap bitmap1, bitmap2, bitmap3,bitmap4,bitmap5;
     private Handler mHandler = new Handler(Looper.myLooper());
-
+    private TaskInfo mTaskInfo;
+    private TextView tv_shop_name, tv_item_name, tv_task_detail, tv_item_link,tv_task_type_key_word_phone;
+    private ImageView iv_platform;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_submit);
+        mTaskInfo  =(TaskInfo)getIntent().getSerializableExtra("TaskInfo");
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText("请稍候");
@@ -92,6 +97,14 @@ public class TaskSubmitActivity extends AppCompatActivity {
                                                        mPath3 = images.get(0).getOriginalPath();
                                                        bitmap3 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
                                                        ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad3);
+                                                   }else if (mPosition == 4) {
+                                                       mPath4 = images.get(0).getOriginalPath();
+                                                       bitmap4 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad4);
+                                                   }else if (mPosition == 5) {
+                                                       mPath5 = images.get(0).getOriginalPath();
+                                                       bitmap5 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad5);
                                                    }
                                                }
 
@@ -104,6 +117,8 @@ public class TaskSubmitActivity extends AppCompatActivity {
         iv_upoad1 = (ImageView) findViewById(R.id.iv_upload1);
         iv_upoad2 = (ImageView) findViewById(R.id.iv_upload2);
         iv_upoad3 = (ImageView) findViewById(R.id.iv_upload3);
+        iv_upoad4 = (ImageView) findViewById(R.id.iv_upload4);
+        iv_upoad5 = (ImageView) findViewById(R.id.iv_upload5);
         iv_upoad1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +140,20 @@ public class TaskSubmitActivity extends AppCompatActivity {
                 imagePicker.pickImage();
             }
         });
+        iv_upoad4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPosition = 4;
+                imagePicker.pickImage();
+            }
+        });
+        iv_upoad5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPosition = 5;
+                imagePicker.pickImage();
+            }
+        });
 
 //        btn_submit = (BootstrapButton)findViewById(R.id.btn_sumbit);
         findViewById(R.id.btn_sumbit).setOnClickListener(new View.OnClickListener() {
@@ -134,11 +163,12 @@ public class TaskSubmitActivity extends AppCompatActivity {
                 try {
                     pDialog.show();
                     JSONObject jsonObject = new JSONObject();
-                    // TODO: 6/4/16
-                    jsonObject.put("taskid", "123456789");
-                    jsonObject.put("shop", "shop_b");
-                    jsonObject.put("taskuserphone", "13763319124");
-                    jsonObject.put("submitterphone", "13763319124");
+                    jsonObject.put("taskid",mTaskInfo.getId() );
+                    jsonObject.put("shop", mTaskInfo.getShop());
+                    jsonObject.put("status", 0);
+                    jsonObject.put("item_name", mTaskInfo.getItem_name());
+                    jsonObject.put("taskuserphone", mTaskInfo.getUser_phone());
+                    jsonObject.put("submitterphone", MainApp.getInstance().getPhone());
                     DL.log(TAG, "mPath1 = " + mPath1);
                     if (mPath1 != null && mPath1.length() > 0)
                         jsonObject.put("image1", bitmaptoString(bitmap1));
@@ -149,7 +179,13 @@ public class TaskSubmitActivity extends AppCompatActivity {
                     if (mPath3 != null && mPath3.length() > 0)
                         jsonObject.put("image3", bitmaptoString(bitmap3));
                     else jsonObject.put("image3", "");
-                    if (mPath1 == null && mPath2 == null && mPath3 == null) {
+                    if (mPath4 != null && mPath4.length() > 0)
+                        jsonObject.put("image4", bitmaptoString(bitmap4));
+                    else jsonObject.put("image4", "");
+                    if (mPath5 != null && mPath5.length() > 0)
+                        jsonObject.put("image5", bitmaptoString(bitmap5));
+                    else jsonObject.put("image5", "");
+                    if (mPath1 == null && mPath2 == null && mPath3 == null&& mPath4 == null&& mPath5 == null) {
                         DL.toast(TaskSubmitActivity.this, "请先选择图片");
                         pDialog.dismiss();
                         return;
@@ -157,7 +193,6 @@ public class TaskSubmitActivity extends AppCompatActivity {
                     MainApp.getInstance().okHttpPost(AppConstant.URL_SUMBIT_TASK, jsonObject.toString(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
-
                             pDialog.setTitleText("系统繁忙，请稍候再试");
                             DL.log(TAG, "onFailure");
                         }
@@ -204,7 +239,28 @@ public class TaskSubmitActivity extends AppCompatActivity {
                 }
             }
         });
+        initComponent();
 
+    }
+
+    private void initComponent(){
+        tv_shop_name = (TextView) findViewById(R.id.tv_shop_name);
+        tv_item_name = (TextView) findViewById(R.id.tv_item_name);
+        tv_item_link = (TextView) findViewById(R.id.tv_item_link);
+        tv_task_detail = (TextView) findViewById(R.id.tv_task_detail);
+        tv_task_type_key_word_phone = (TextView) findViewById(R.id.tv_key_word_phone);
+        iv_platform = (ImageView) findViewById(R.id.iv_platform);
+
+        tv_shop_name.setText("店铺:" + mTaskInfo.getShop_name());
+        tv_item_link.setText( mTaskInfo.getItem_link());
+        tv_item_name.setText("商品:" + mTaskInfo.getItem_name());
+        tv_task_detail.setText("任务和奖励:");//todo
+        if (mTaskInfo.getPlatform().equals("taobao")) {
+            iv_platform.setImageResource(R.mipmap.tao);
+        } else {
+            iv_platform.setImageResource(R.mipmap.tmall);
+        }
+        tv_task_type_key_word_phone.setText(mTaskInfo.getTask_type_cn() + ":" + mTaskInfo.getKey_word());
     }
 
     @Override
@@ -223,6 +279,10 @@ public class TaskSubmitActivity extends AppCompatActivity {
                                 iv_upoad2.setImageURI(Uri.fromFile(file));
                             } else if (mPosition == 3) {
                                 iv_upoad3.setImageURI(Uri.fromFile(file));
+                            } else if (mPosition == 4) {
+                                iv_upoad4.setImageURI(Uri.fromFile(file));
+                            } else if (mPosition == 5) {
+                                iv_upoad5.setImageURI(Uri.fromFile(file));
                             }
                         }
 

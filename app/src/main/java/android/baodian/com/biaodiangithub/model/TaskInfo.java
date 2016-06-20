@@ -1,20 +1,42 @@
 package android.baodian.com.biaodiangithub.model;
 
+import java.io.Serializable;
+
 /**
  * Created by chenjj on 6/2/16.
  */
-public class TaskInfo {
+public class TaskInfo implements Serializable{
     private static String key_word_search = "key_word_search";//关键字搜索
     private static String shop_search = "shop_search";//店铺搜索
     private static String direct_bus = "direct_bus";//直通车
     private static String tao_kou_ling = "tao_kou_ling";//淘口令
+    private String id;
     private String shop_name;
     private String shop;
     private String platform;
-    private String key_word_phone;
+    private String key_word;
     private String item_link;
     private String item_price;
     private String item_place;
+
+    public String getUser_phone() {
+        return user_phone;
+    }
+
+    public void setUser_phone(String user_phone) {
+        this.user_phone = user_phone;
+    }
+
+    private String user_phone;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     public String getItem_name() {
         return item_name;
@@ -97,11 +119,11 @@ public class TaskInfo {
         this.platform = platform;
     }
 
-    public String getKey_word_phone() {
-        return key_word_phone;
+    public String getKey_word() {
+        return key_word;
     }
 
-    public void setKey_word_phone(String key_word_phone) {
-        this.key_word_phone = key_word_phone;
+    public void setKey_word(String key_word) {
+        this.key_word = key_word;
     }
 }

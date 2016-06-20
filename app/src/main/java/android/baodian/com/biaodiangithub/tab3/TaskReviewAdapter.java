@@ -30,7 +30,7 @@ public class TaskReviewAdapter extends UltimateViewAdapter {
             super(itemView);
             if (isNormal) {
                 lly = (LinearLayout) itemView.findViewById(R.id.lly);
-                tv_shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
+                tv_shop_name = (TextView) itemView.findViewById(R.id.tv_item_name);
                 tv_status = (TextView) itemView.findViewById(R.id.tv_status);
                 tv_updatetime = (TextView) itemView.findViewById(R.id.tv_updatetime);
             }

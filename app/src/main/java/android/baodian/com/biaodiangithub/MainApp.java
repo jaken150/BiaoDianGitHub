@@ -6,6 +6,9 @@ import android.baodian.com.biaodiangithub.util.DL;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.github.yoojia.anyversion.AnyVersion;
+import com.github.yoojia.anyversion.Version;
+import com.github.yoojia.anyversion.VersionParser;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -15,6 +18,10 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.orhanobut.logger.Logger;
 
 import net.grandcentrix.tray.AppPreferences;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +43,7 @@ public class MainApp extends Application {
     public AppPreferences appPreferences;
     private static MainApp sInstance;
     public List<Fragment> mFragmentList;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -59,6 +67,29 @@ public class MainApp extends Application {
                 .memoryCache(new WeakMemoryCache())
                 .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         ImageLoader.getInstance().init(config);
+
+        AnyVersion.init(this, new VersionParser() {
+            @Override
+            public Version onParse(String response) {
+                DL.log("onParse", "response = " + response);
+                final JSONTokener tokener = new JSONTokener(response);
+                String name = "";
+                String note = "";
+                String url = "";
+                int code = 0;
+                try {
+                    JSONObject json = (JSONObject) tokener.nextValue();
+                    name = json.getString("name");
+                    note = json.getString("note");
+                    url = json.getString("url");
+                    code = json.getInt("code");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return new Version(name, note, url, code);
+            }
+        });
     }
 
     public static MainApp getInstance() {
@@ -146,7 +177,7 @@ public class MainApp extends Application {
         setCoins(0);
     }
 
-    public void login(AppUser appUser){
+    public void login(AppUser appUser) {
         setPhone(appUser.getPhone());
         setQQ(appUser.getQq());
         setTB1(appUser.getTb1());

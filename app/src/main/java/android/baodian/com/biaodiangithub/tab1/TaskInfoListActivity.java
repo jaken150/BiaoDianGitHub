@@ -1,20 +1,27 @@
 package android.baodian.com.biaodiangithub.tab1;
 
+import android.app.Activity;
 import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.R;
+import android.baodian.com.biaodiangithub.entity.BaseResp;
 import android.baodian.com.biaodiangithub.entity.GetTaskInfoResp;
 import android.baodian.com.biaodiangithub.model.TaskInfo;
 import android.baodian.com.biaodiangithub.util.AppConstant;
 import android.baodian.com.biaodiangithub.util.DL;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -44,6 +51,8 @@ public class TaskInfoListActivity extends AppCompatActivity {
     private int mPageSize = 10;
     private boolean mIsLoadmoreNow = false;
     private boolean mIsRefreshNew = false;
+    private ActionBar actionBar;
+    private int mType = 0;//0金币任务,1我的任务
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,15 @@ public class TaskInfoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_info_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
         DL.log(TAG, "onCreate");
+        mType = getIntent().getIntExtra("type",0);
+        if(mType == 0){
+            actionBar.setTitle("全部金币任务");
+        }else if(mType == 1){
+            actionBar.setTitle("进行中的任务");
+        }
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText("请稍候");
@@ -66,8 +83,8 @@ public class TaskInfoListActivity extends AppCompatActivity {
     private void httpPostQuery() {
         try {
             JSONObject json = new JSONObject();
-
-            json.put("phone", "13763319124");
+            if(mType == 1)
+                json.put("phone", "13763319124");
 //            json.put("page", mPage);
 //            json.put("pagesize", mPageSize);
             MainApp.getInstance().okHttpPost(AppConstant.URL_GET_TASK_INFO, json.toString(), new Callback() {
@@ -87,12 +104,12 @@ public class TaskInfoListActivity extends AppCompatActivity {
                             if (pDialog.isShowing())
                                 pDialog.dismiss();
                             try {
-                                GetTaskInfoResp respObj = JSON.parseObject(resp, GetTaskInfoResp.class);
-                                if (!respObj.checkErrorCode()) {
-                                    pDialog.setTitleText(respObj.getErrorMsg());
-                                    pDialog.show();
+                                BaseResp baseRespObj = JSON.parseObject(resp, BaseResp.class);
+                                if (!baseRespObj.checkErrorCode()) {
+                                    Toast.makeText(TaskInfoListActivity.this,baseRespObj.getErrorMsg(),Toast.LENGTH_SHORT).show();
                                     return;
                                 }
+                                GetTaskInfoResp respObj = JSON.parseObject(resp, GetTaskInfoResp.class);
                                 DL.log(TAG, "getOrder().size() = " + respObj.getData().size());
                                 if (respObj.getData().size() > 0) {
 //                            if (mIsRefreshNew) {//下拉刷新，先清除list里的数据
@@ -142,7 +159,7 @@ public class TaskInfoListActivity extends AppCompatActivity {
     private void initListView() {
         mListView = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         mListView.setHasFixedSize(false);
-        mAdapter = new TaskInfoAdapter(mList);
+        mAdapter = new TaskInfoAdapter(mList,mHandler,(Activity)this,mType);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mListView.setLayoutManager(mLinearLayoutManager);
 
@@ -151,7 +168,6 @@ public class TaskInfoListActivity extends AppCompatActivity {
         enableRefreshGoogleMaterialStyle();
         mListView.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
         mListView.setAdapter(mAdapter);
-
     }
 
     private void enableRefreshGoogleMaterialStyle() {

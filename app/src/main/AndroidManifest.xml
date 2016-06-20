@@ -4,8 +4,9 @@
     package="android.baodian.com.biaodiangithub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".MainApp"
         android:allowBackup="true"
@@ -28,6 +29,7 @@
             android:label="@string/title_activity_task_info_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="android.baodian.com.biaodiangithub.tab1.TaskSubmitActivity" />
+        <activity android:name="android.baodian.com.biaodiangithub.tab4.ModifyAppUserInfoActivity" />
         <activity android:name="android.baodian.com.biaodiangithub.baesclass.BaseActivity"></activity>
     </application>
 

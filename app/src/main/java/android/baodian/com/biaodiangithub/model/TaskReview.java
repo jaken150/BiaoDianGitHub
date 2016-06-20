@@ -1,8 +1,20 @@
 package android.baodian.com.biaodiangithub.model;
 
 public class TaskReview {
+    public static int STATUS_PARTIVIPATE = -2;
+    public static int STATUS_SUBMIT = 0;
     private String taskid;
     private String shop;
+
+    public String getItem_name() {
+        return item_name;
+    }
+
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
+
+    private String item_name;
     private String taskuserphone;
     private String submitterphone;
     private String imageurl1;

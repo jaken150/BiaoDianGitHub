@@ -4,9 +4,13 @@ import android.baodian.com.biaodiangithub.tab1.Fragment1;
 import android.baodian.com.biaodiangithub.tab2.Fragment2;
 import android.baodian.com.biaodiangithub.tab3.Fragment3;
 import android.baodian.com.biaodiangithub.tab4.Fragment4;
+import android.baodian.com.biaodiangithub.util.AppConstant;
+import android.baodian.com.biaodiangithub.util.DL;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,7 +18,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.github.yoojia.anyversion.AnyVersion;
+import com.github.yoojia.anyversion.NotifyStyle;
+import com.github.yoojia.anyversion.Version;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -33,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private AppPreferences appPreferences;
     private ActionBar actionBar;
+    private Handler mHandler = new Handler(Looper.myLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
         actionBar.setTitle("宝典");
         initComponent(savedInstanceState);//test github
+
     }
 
     private void initComponent(Bundle savedInstanceState) {
@@ -57,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItemId) {
                             case R.id.tab0:
                                 mViewPager.setCurrentItem(0);
+                                actionBar.setTitle("首页");
                                 actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
                                 break;
                             case R.id.tab1:
                                 mViewPager.setCurrentItem(1);
+                                actionBar.setTitle("任务进展");
                                 actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_primary)));
                                 //一旦进入这个页面则隐藏未读消息提示
 //                                unreadMessage.hide();
@@ -68,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.tab2:
                                 mViewPager.setCurrentItem(2);
+                                actionBar.setTitle("收支明细");
                                 actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_info)));
                                 break;
                             case R.id.tab3:
                                 mViewPager.setCurrentItem(3);
+                                actionBar.setTitle("我");
                                 actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_secondary_border)));
                                 break;
                         }
@@ -126,10 +140,12 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case R.id.tab0:
                         mViewPager.setCurrentItem(0);
+                        actionBar.setTitle("首页");
                         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
                         break;
                     case R.id.tab1:
                         mViewPager.setCurrentItem(1);
+                        actionBar.setTitle("任务进展");
                         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_primary)));
                         //一旦进入这个页面则隐藏未读消息提示
 //                        unreadMessage.hide();
@@ -137,10 +153,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.tab2:
                         mViewPager.setCurrentItem(2);
+                        actionBar.setTitle("收支明细");
                         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_info)));
                         break;
                     case R.id.tab3:
                         mViewPager.setCurrentItem(3);
+                        actionBar.setTitle("我");
                         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_secondary_border)));
                         break;
                 }

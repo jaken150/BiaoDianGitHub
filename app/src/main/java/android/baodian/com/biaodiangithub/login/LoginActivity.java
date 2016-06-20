@@ -16,6 +16,9 @@ import android.view.View;
 
 import com.alibaba.fastjson.JSON;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.github.yoojia.anyversion.AnyVersion;
+import com.github.yoojia.anyversion.NotifyStyle;
+import com.github.yoojia.anyversion.Version;
 
 import org.json.JSONObject;
 
@@ -54,8 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
+                AnyVersion version = AnyVersion.getInstance();
+                version.setURL(AppConstant.HOST_URL_UPDATE);
+                version.setCallback(new com.github.yoojia.anyversion.Callback() {
+                    @Override
+                    public void onVersion(Version version) {
+                        DL.log("New Version");
+                        MainApp.toast("New Version: \n" + version);
+                    }
+                });
+                version.check(NotifyStyle.Callback);
+//                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+//                finish();
             }
         });
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {

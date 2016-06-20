@@ -2,9 +2,7 @@ package android.baodian.com.biaodiangithub.tab2;
 
 import android.baodian.com.biaodiangithub.R;
 import android.baodian.com.biaodiangithub.model.TaskReview;
-import android.baodian.com.biaodiangithub.tab1.TaskSubmitActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +22,7 @@ public class TaskReviewAdapter extends UltimateViewAdapter {
     public class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         private LinearLayout lly;
-        private TextView tv_shop_name;
+        private TextView tv_item_name;
         private TextView tv_status;
         private TextView tv_updatetime;
 
@@ -32,7 +30,7 @@ public class TaskReviewAdapter extends UltimateViewAdapter {
             super(itemView);
             if (isNormal) {
                 lly = (LinearLayout) itemView.findViewById(R.id.lly);
-                tv_shop_name = (TextView) itemView.findViewById(R.id.tv_shop_name);
+                tv_item_name = (TextView) itemView.findViewById(R.id.tv_item_name);
                 tv_status = (TextView) itemView.findViewById(R.id.tv_status);
                 tv_updatetime = (TextView) itemView.findViewById(R.id.tv_updatetime);
             }
@@ -77,7 +75,7 @@ public class TaskReviewAdapter extends UltimateViewAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPES.NORMAL) {
             ViewHolder orderViewHolder = (ViewHolder) holder;
-            orderViewHolder.tv_shop_name.setText("店铺名:"+mList.get(position).getShop());
+            orderViewHolder.tv_item_name.setText("商品:"+mList.get(position).getItem_name());
             if(mList.get(position).getStatus() == 0)
                 orderViewHolder.tv_status.setText("未审核");
             else if(mList.get(position).getStatus() == 1)

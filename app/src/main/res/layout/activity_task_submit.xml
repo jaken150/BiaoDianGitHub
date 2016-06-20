@@ -13,98 +13,159 @@
         android:src="@color/bootstrap_brand_danger" />
 
     <LinearLayout
+        android:id="@+id/lly"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_platform"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@mipmap/tao" />
-
-        <TextView
-            android:id="@+id/tv_shopname"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:padding="5dp"
-            android:text="我的店铺名"
-            android:textColor="@color/bootstrap_brand_danger"
-            android:textSize="15sp" />
-    </LinearLayout>
+            android:layout_height="1dp"
+            android:src="@color/bootstrap_brand_danger" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp">
-
-        <TextView
-            android:id="@+id/tv_shop"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:padding="5dp"
-            android:text="http://taobao.baodian.com"
-            android:textColor="@color/bootstrap_brand_danger"
-            android:textSize="15sp" />
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/iv_platform"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/tao" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_shop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:text="店铺名:小米服装店"
+                    android:textColor="@color/bootstrap_brand_danger"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:padding="5dp"
+                    android:text="佐丹奴t恤 男装纯棉励志格言英文印花棉衫 男士短袖T恤衫97094001"
+                    android:textColor="@color/bootstrap_brand_danger"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_key_word_phone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:gravity="center|left"
+            android:maxLines="1"
             android:padding="5dp"
-            android:text="关键字：宝典"
+            android:text="搜索关键字：佐丹奴t恤"
             android:textColor="@color/bootstrap_brand_danger"
-            android:textSize="15sp" />
-    </LinearLayout>
+            android:textSize="14sp" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/bootstrap_brand_danger" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_task_detail"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="任务和奖励：访问50金币，关键字搜索50金币，店铺搜索50金币，直通车50金币，淘口令50金币"
+                android:textColor="@color/bootstrap_brand_danger" />
 
-        <!--com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/btn_sumbit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="15dp"
-            android:text="          提交任务          "
-            app:showOutline="false"
-            app:roundedCorners="true"
-            app:bootstrapSize="lg" /-->
-        <Button
-            android:id="@+id/btn_sumbit"
-            android:layout_marginBottom="15dp"
-            android:background="@color/bootstrap_brand_danger"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"
-            android:text="             提交任务             " />
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="剩余任务数:50"
+                    android:textSize="12sp" />
+
+                <RelativeLayout
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                        android:id="@+id/btn_participate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:text="抢任务"
+                        app:bootstrapBrand="primary"
+                        app:bootstrapSize="xs"
+                        app:roundedCorners="true" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:id="@+id/tv_item_link"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text="http://taobao.baodian.com"
+                android:textColor="@color/bootstrap_brand_danger"
+                android:textSize="13sp" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:visibility="gone"
+                android:id="@+id/btn_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="点击复制地址"
+                app:bootstrapBrand="primary"
+                app:bootstrapSize="xs"
+                app:roundedCorners="true" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp" />
         <ImageView
-            android:id="@+id/iv_div"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_above="@+id/btn_sumbit"
-            android:layout_marginBottom="15dp"
             android:src="@color/bootstrap_brand_danger" />
-
         <LinearLayout
             android:id="@+id/lly_upload"
             android:layout_width="match_parent"
@@ -150,12 +211,46 @@
                     android:scaleType="centerInside"
                     android:src="@mipmap/upload" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_upload4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/upload" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_upload5"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/upload" />
+            </LinearLayout>
         </LinearLayout>
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_above="@+id/lly_upload"
             android:src="@color/bootstrap_brand_danger" />
-    </RelativeLayout>
+        <Button
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:id="@+id/btn_sumbit"
+            android:layout_marginBottom="15dp"
+            android:background="@color/bootstrap_brand_danger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:text="             提交任务             " />
+    </LinearLayout>
+
 </LinearLayout>

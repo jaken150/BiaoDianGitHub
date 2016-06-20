@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ public class Fragment1 extends Fragment {
     private String TAG = "Fragment1";
     private Context mContext;
     private SweetAlertDialog pDialog;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -38,10 +38,20 @@ public class Fragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment1, container, false);
-        v.findViewById(R.id.lly_task).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.lly_task_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext,TaskInfoListActivity.class));
+                Intent i = new Intent(mContext, TaskInfoListActivity.class);
+                i.putExtra("type",0);
+                mContext.startActivity(i);
+            }
+        });
+        v.findViewById(R.id.lly_task_mine).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, TaskInfoListActivity.class);
+                i.putExtra("type",1);
+                mContext.startActivity(i);
             }
         });
         return v;

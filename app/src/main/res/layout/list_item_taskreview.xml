@@ -24,13 +24,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_shop_name"
+                android:id="@+id/tv_item_name"
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="bottom|left"
                 android:padding="5dp"
-                android:text="我的店铺名"
+                android:text="DELL键盘"
                 android:textColor="@color/bootstrap_brand_danger"
                 android:textSize="17sp" />
 
@@ -51,7 +52,7 @@
             android:id="@+id/tv_status"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="center"
             android:padding="5dp"
             android:text="未核审"

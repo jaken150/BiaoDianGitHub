@@ -64,7 +64,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lly_task"
+        android:id="@+id/lly_task_all"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/bootstrap_well_background"
@@ -77,7 +77,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="金币任务"
+            android:text="全部金币任务"
             android:textColor="@color/bootstrap_brand_danger"
             android:textSize="25sp" />
 
@@ -87,6 +87,36 @@
             android:layout_weight="1"
             android:gravity="top|left"
             android:text="浏览淘宝，加入收藏夹和购物车；每个任务2-3分钟，佣金1-10个金币" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/bootstrap_gray" />
+
+    <LinearLayout
+        android:id="@+id/lly_task_mine"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/bootstrap_well_background"
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="进行中的任务"
+            android:textColor="@color/bootstrap_brand_danger"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="top|left"
+            android:text="查看已抢任务；提交任务截图" />
     </LinearLayout>
 
     <ImageView
