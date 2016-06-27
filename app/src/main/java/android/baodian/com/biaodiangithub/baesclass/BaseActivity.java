@@ -1,6 +1,5 @@
 package android.baodian.com.biaodiangithub.baesclass;
 
-import android.baodian.com.biaodiangithub.R;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,18 +23,31 @@ public class BaseActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
     }
 
+    protected void showLoading(){
+        showLoading("请稍候","",true);
+    }
 
-    protected void showProgessDialog(String content,boolean cancelable){
+    protected void showLoading(String title){
+        showLoading(title,"",true);
+    }
+
+    protected void showLoading(String title,boolean cancelable){
+        showLoading(title,"",cancelable);
+    }
+
+    protected void showLoading(String title,String content,boolean cancelable){
         if(pDialog == null){
             pDialog =  new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setCancelable(cancelable);
         }
-        pDialog.setTitleText(content);
-        pDialog.show();
+        pDialog.setTitleText(title);
+        pDialog.setContentText(content);
+        if(!pDialog.isShowing())
+            pDialog.show();
     }
 
-    protected void dismissProgessDialog(){
+    protected void dismissLoading(){
         if(pDialog != null && pDialog.isShowing()){
             pDialog.dismiss();
         }

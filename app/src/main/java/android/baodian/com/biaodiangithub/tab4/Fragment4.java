@@ -1,47 +1,47 @@
 package android.baodian.com.biaodiangithub.tab4;
 
+import android.baodian.com.biaodiangithub.BuildConfig;
 import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.baesclass.BaseFragment;
 import android.baodian.com.biaodiangithub.login.LoginActivity;
-import android.baodian.com.biaodiangithub.tab1.TaskInfoListActivity;
+import android.baodian.com.biaodiangithub.model.Update;
 import android.baodian.com.biaodiangithub.util.AppConstant;
 import android.baodian.com.biaodiangithub.util.DL;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.baodian.com.biaodiangithub.R;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.github.yoojia.anyversion.AnyVersion;
-import com.github.yoojia.anyversion.NotifyStyle;
-import com.github.yoojia.anyversion.Version;
+import com.orhanobut.logger.Logger;
 import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListenerV1;
 import com.thin.downloadmanager.ThinDownloadManager;
 
 import java.io.File;
+import java.io.IOException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class Fragment4 extends BaseFragment {
     private String TAG = "Fragment4";
 
     private TextView tv_phone;
     private BootstrapButton btn_logout;
-    private AnyVersion version;
     private Handler mHandler = new Handler(Looper.myLooper());
     private ThinDownloadManager downloadManager;
 
@@ -55,66 +55,6 @@ public class Fragment4 extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DL.log(TAG, "onCreate ");
-
-        version = AnyVersion.getInstance();
-        version.setURL(AppConstant.HOST_URL_UPDATE);
-        version.setCallback(new com.github.yoojia.anyversion.Callback() {
-            @Override
-            public void onVersion(Version version) {
-                final Version final_version = version;
-                DL.log("New Version");
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-//                        Toast.makeText(mContext, "发现新版本", Toast.LENGTH_SHORT).show();
-                        showAlertDialog(final_version.note, true, new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
-                                Uri downloadUri = Uri.parse(final_version.URL);
-                                DL.log("toString = "+Environment.getExternalStorageDirectory().getPath() + "/"+final_version.name);
-                                DL.log("final_version.name = "+final_version.name);
-                                Uri destinationUri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/"+final_version.name);
-                                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
-//                                .addCustomHeader("Auth-Token", "YourTokenApiKey")
-                                        .setRetryPolicy(new DefaultRetryPolicy())
-                                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
-//                                .setDownloadContext(downloadContextObject)//Optional
-                                        .setStatusListener(new DownloadStatusListenerV1() {
-                                            @Override
-                                            public void onDownloadComplete(DownloadRequest downloadRequest) {
-                                                dismissProgessDialog();
-                                                DL.log("setStatusListener", "onDownloadComplete");
-                                                File app = new File(Environment.getExternalStorageDirectory().getPath(), final_version.name);
-                                                DL.log("setStatusListener", "File = "+app.getAbsolutePath());
-                                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.setDataAndType(Uri.parse("file://"+app), "application/vnd.android.package-archive");
-                                                mContext.startActivity(intent);
-                                            }
-
-                                            @Override
-                                            public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                                                DL.log("setStatusListener", "onDownloadFailed");
-                                            }
-
-                                            @Override
-                                            public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                                                if(progress % 10 == 0)
-                                                    showNumberProgessDialog("正在下载",false,progress);
-                                                DL.log("setStatusListener", "progress = " + progress);
-
-                                            }
-                                        });
-                                int downloadId = downloadManager.add(downloadRequest);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-
-        downloadManager = new ThinDownloadManager();
     }
 
     public void updateUI() {
@@ -169,13 +109,92 @@ public class Fragment4 extends BaseFragment {
         v.findViewById(R.id.tv_invate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                version.check(NotifyStyle.Dialog);
             }
         });
+        if(BuildConfig.DEBUG_VERSION)
+            ((TextView)v.findViewById(R.id.tv_update)).setText("版本更新 V_0."+MainApp.getInstance().getVersionCode());
+        else
+            ((TextView)v.findViewById(R.id.tv_update)).setText("版本更新 V_1."+MainApp.getInstance().getVersionCode());
         v.findViewById(R.id.tv_update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                version.check(NotifyStyle.Callback);
+                try {
+                    MainApp.getInstance().okHttpGet(AppConstant.URL_UPDATE, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    DL.toast(mContext, "网络异常");
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final String resp = response.body().string();
+                            DL.log("f4 resp = "+resp);
+                            Logger.json(resp);
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    final Update update = JSON.parseObject(resp, Update.class);
+                                    DL.log("update.getCode() = "+update.getCode());
+                                    if (update.getCode() > MainApp.getInstance().getVersionCode()) {
+                                        downloadManager = new ThinDownloadManager();
+                                        //有可用更新
+                                        showAlertDialog(update.note, true, new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismiss();
+                                                Uri downloadUri = Uri.parse(update.url);
+                                                DL.log("toString = " + Environment.getExternalStorageDirectory().getPath() + "/" + update.name);
+                                                DL.log("final_version.name = " + update.name);
+                                                Uri destinationUri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/" + update.name);
+                                                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
+                                                        .setRetryPolicy(new DefaultRetryPolicy())
+                                                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                                                        .setStatusListener(new DownloadStatusListenerV1() {
+                                                            @Override
+                                                            public void onDownloadComplete(DownloadRequest downloadRequest) {
+                                                                dismissLoading();
+                                                                DL.log("setStatusListener", "onDownloadComplete");
+                                                                File app = new File(Environment.getExternalStorageDirectory().getPath(), update.name);
+                                                                DL.log("setStatusListener", "File = " + app.getAbsolutePath());
+                                                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                intent.setDataAndType(Uri.parse("file://" + app), "application/vnd.android.package-archive");
+                                                                mContext.startActivity(intent);
+                                                            }
+
+                                                            @Override
+                                                            public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
+                                                                DL.log("setStatusListener", "onDownloadFailed");
+                                                                DL.toast(mContext,"网络异常，下载失败");
+                                                            }
+
+                                                            @Override
+                                                            public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
+                                                                if (progress % 10 == 0)
+                                                                    showLoading("已下载"+progress+"%", false);
+                                                                DL.log("setStatusListener", "progress = " + progress);
+                                                            }
+                                                        });
+                                                int downloadId = downloadManager.add(downloadRequest);
+                                            }
+                                        });
+                                    } else {
+                                        //已是最新
+                                        DL.toast(mContext, "已是最新");
+                                    }
+                                }
+                            });
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DL.toast(mContext, "接口出错");
+                }
             }
         });
 

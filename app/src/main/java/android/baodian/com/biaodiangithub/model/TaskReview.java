@@ -3,7 +3,7 @@ package android.baodian.com.biaodiangithub.model;
 public class TaskReview {
     public static int STATUS_PARTIVIPATE = -2;
     public static int STATUS_SUBMIT = 0;
-    private String taskid;
+    private String task_id;
     private String shop;
 
     public String getItem_name() {
@@ -40,12 +40,12 @@ public class TaskReview {
         this.updatetime = updatetime;
     }
 
-    public String getTaskid() {
-        return taskid;
+    public String getTask_id() {
+        return task_id;
     }
 
-    public void setTaskid(String taskid) {
-        this.taskid = taskid;
+    public void setTask_id(String task_id) {
+        this.task_id = task_id;
     }
 
     public String getTaskuserphone() {

@@ -62,9 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
         mETPassword1 = (BootstrapEditText) findViewById(R.id.et_pwd);
         mETPassword2 = (BootstrapEditText) findViewById(R.id.et_pwd2);
         if(DL.DEBUGVERSION){
-            mETMobile.setText("13763319124");
-            mETPassword1.setText("q");
-            mETPassword2.setText("q");
+//            mETMobile.setText("13763319124");
+//            mETPassword1.setText("q");
+//            mETPassword2.setText("q");
         }
     }
 

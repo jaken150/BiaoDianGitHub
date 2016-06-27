@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -65,10 +67,14 @@ public class TaskSubmitActivity extends AppCompatActivity {
     private TaskInfo mTaskInfo;
     private TextView tv_shop_name, tv_item_name, tv_task_detail, tv_item_link,tv_task_type_key_word_phone;
     private ImageView iv_platform;
+    private ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_submit);
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bootstrap_brand_danger)));
+        actionBar.setTitle("提交任务");
         mTaskInfo  =(TaskInfo)getIntent().getSerializableExtra("TaskInfo");
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -87,24 +93,26 @@ public class TaskSubmitActivity extends AppCompatActivity {
                                                            .build();
                                                    if (mPosition == 1) {
                                                        mPath1 = images.get(0).getOriginalPath();
-                                                       bitmap1 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
-                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad1);
+                                                       DL.log("TaskSubmitActivity","getPath = "+fileUri.getPath());
+                                                       DL.log("TaskSubmitActivity","toString = "+fileUri.toString());
+                                                       bitmap1 = ImageLoader.getInstance().loadImageSync(Uri.decode(fileUri.toString()), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(Uri.decode(fileUri.toString()), iv_upoad1);
                                                    } else if (mPosition == 2) {
                                                        mPath2 = images.get(0).getOriginalPath();
-                                                       bitmap2 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
-                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad2);
+                                                       bitmap2 = ImageLoader.getInstance().loadImageSync(Uri.decode(fileUri.toString()), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(Uri.decode(fileUri.toString()), iv_upoad2);
                                                    } else if (mPosition == 3) {
                                                        mPath3 = images.get(0).getOriginalPath();
-                                                       bitmap3 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
-                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad3);
+                                                       bitmap3 = ImageLoader.getInstance().loadImageSync(Uri.decode(fileUri.toString()), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(Uri.decode(fileUri.toString()), iv_upoad3);
                                                    }else if (mPosition == 4) {
                                                        mPath4 = images.get(0).getOriginalPath();
-                                                       bitmap4 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
-                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad4);
+                                                       bitmap4 = ImageLoader.getInstance().loadImageSync(Uri.decode(fileUri.toString()), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(Uri.decode(fileUri.toString()), iv_upoad4);
                                                    }else if (mPosition == 5) {
                                                        mPath5 = images.get(0).getOriginalPath();
-                                                       bitmap5 = ImageLoader.getInstance().loadImageSync(fileUri.toString(), imageSize, options);
-                                                       ImageLoader.getInstance().displayImage(fileUri.toString(), iv_upoad5);
+                                                       bitmap5 = ImageLoader.getInstance().loadImageSync(Uri.decode(fileUri.toString()), imageSize, options);
+                                                       ImageLoader.getInstance().displayImage(Uri.decode(fileUri.toString()), iv_upoad5);
                                                    }
                                                }
 
@@ -163,7 +171,7 @@ public class TaskSubmitActivity extends AppCompatActivity {
                 try {
                     pDialog.show();
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("taskid",mTaskInfo.getId() );
+                    jsonObject.put("task_id",mTaskInfo.getId() );
                     jsonObject.put("shop", mTaskInfo.getShop());
                     jsonObject.put("status", 0);
                     jsonObject.put("item_name", mTaskInfo.getItem_name());

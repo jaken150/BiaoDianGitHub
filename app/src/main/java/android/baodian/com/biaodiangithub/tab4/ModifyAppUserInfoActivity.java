@@ -4,7 +4,6 @@ import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.R;
 import android.baodian.com.biaodiangithub.baesclass.BaseActivity;
 import android.baodian.com.biaodiangithub.entity.BaseResp;
-import android.baodian.com.biaodiangithub.entity.GetTaskReviewResp;
 import android.baodian.com.biaodiangithub.util.AppConstant;
 import android.os.Bundle;
 import android.view.View;
@@ -49,14 +48,14 @@ public class ModifyAppUserInfoActivity extends BaseActivity {
                     jsonObject.put("tb", et.getText());
                     jsonObject.put("tb2", et.getText());
                     jsonObject.put("tb3", et.getText());
-                    showProgessDialog("请稍候",true);
+                    showLoading("请稍候",true);
                     MainApp.getInstance().okHttpPost(AppConstant.URL_MODIFY_USER_INFO, jsonObject.toString(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dismissProgessDialog();
+                                    dismissLoading();
                                     showAlertDialog("网络异常", true);
                                 }
                             });
@@ -69,7 +68,7 @@ public class ModifyAppUserInfoActivity extends BaseActivity {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dismissProgessDialog();
+                                    dismissLoading();
                                     BaseResp respObj = JSON.parseObject(resp, BaseResp.class);
                                     if (respObj.getErrorCode() != 0) {
                                         MainApp.getInstance().toast(respObj.getErrorMsg());

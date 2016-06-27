@@ -38,7 +38,7 @@ import okhttp3.Response;
 
 public class Fragment2 extends Fragment {
     private Context mContext;
-    private String TAG = "Fragment3";
+    private String TAG = "Fragment2";
     private UltimateRecyclerView mListView;
     private LinearLayoutManager mLinearLayoutManager;
     private SweetAlertDialog pDialog;
@@ -66,11 +66,13 @@ public class Fragment2 extends Fragment {
         pDialog.setTitleText("请稍候");
         pDialog.setCancelable(true);
         if (mList == null || mList.size() == 0) {
+            DL.log(TAG,"mList == null || mList.size() == 0 -- httpPostQuery");
             httpPostQuery();
         }
     }
 
     private void httpPostQuery() {
+        DL.log(TAG,"httpPostQuery");
         try {
             JSONObject json = new JSONObject();
 
@@ -116,6 +118,7 @@ public class Fragment2 extends Fragment {
                                     }
                                     if (respObj.getData().size() < mPageSize) {
                                         //当返回数据小于pagesize时，禁止自动加载
+
                                         mListView.disableLoadmore();
                                         mAdapter.enableLoadMore(false);
                                     } else {
@@ -196,6 +199,7 @@ public class Fragment2 extends Fragment {
                 mListView.reenableLoadmore();
                 mIsRefreshNew = true;
                 mPage = 1;
+                DL.log(TAG,"onRefresh -- httpPostQuery");
                 httpPostQuery();
             }
         });
@@ -222,10 +226,13 @@ public class Fragment2 extends Fragment {
             public void loadMore(int itemsCount, final int maxLastVisiblePosition) {
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
-                        DL.log(TAG, "loadMor... ");
+                        DL.log(TAG, "onLoadMore");
                         mIsLoadmoreNow = true;
                         mPage++;
-                        httpPostQuery();
+                        DL.log(TAG,"onLoadMore -- httpPostQuery");
+                        if (mList == null || mList.size() == mPageSize) {
+                            httpPostQuery();
+                        }
                     }
                 }, 1000);
             }

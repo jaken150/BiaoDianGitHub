@@ -6,6 +6,9 @@ import android.baodian.com.biaodiangithub.tab3.Fragment3;
 import android.baodian.com.biaodiangithub.tab4.Fragment4;
 import android.baodian.com.biaodiangithub.util.AppConstant;
 import android.baodian.com.biaodiangithub.util.DL;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,9 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.github.yoojia.anyversion.AnyVersion;
-import com.github.yoojia.anyversion.NotifyStyle;
-import com.github.yoojia.anyversion.Version;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -182,4 +182,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

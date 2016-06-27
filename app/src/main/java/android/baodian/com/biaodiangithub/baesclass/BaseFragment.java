@@ -24,50 +24,55 @@ public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    protected void showProgessDialog(String content, boolean cancelable) {
-        if (pDialog == null) {
-            pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.PROGRESS_TYPE);
+    protected void showLoading(){
+        showLoading("请稍候","",true);
+    }
+
+    protected void showLoading(String title){
+        showLoading(title,"",true);
+    }
+
+    protected void showLoading(String title,boolean cancelable){
+        showLoading(title,"",cancelable);
+    }
+
+    protected void showLoading(String title,String content,boolean cancelable){
+        if(pDialog == null){
+            pDialog =  new SweetAlertDialog(mContext,SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setCancelable(cancelable);
         }
+        pDialog.setTitleText(title);
         pDialog.setContentText(content);
-        if (!pDialog.isShowing())
+        if(!pDialog.isShowing())
             pDialog.show();
     }
 
-    protected void showNumberProgessDialog(String content, boolean cancelable, int progress) {
-        if (pDialog == null) {
-            pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setCancelable(true);
-        }
-        pDialog.setContentText("已下载"+progress+"%");
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-
-    protected void dismissProgessDialog() {
-        if (pDialog != null && pDialog.isShowing()) {
+    protected void dismissLoading(){
+        if(pDialog != null && pDialog.isShowing()){
             pDialog.dismiss();
         }
     }
 
-    protected void showAlertDialog(String content, boolean cancelable) {
-        showAlertDialog("提示",content,cancelable,null);
+    protected void showAlertDialog(String title) {
+        showAlertDialog(title, "", true, null);
     }
 
-    protected void showAlertDialog(String content, boolean cancelable, SweetAlertDialog.OnSweetClickListener confirmListener){
-        showAlertDialog("提示",content,cancelable,confirmListener);
+    protected void showAlertDialog(String title, boolean cancelable) {
+        showAlertDialog(title, "", cancelable, null);
     }
 
-    protected void showAlertDialog(String title,String content, boolean cancelable, SweetAlertDialog.OnSweetClickListener confirmListener) {
+    protected void showAlertDialog(String title, boolean cancelable, SweetAlertDialog.OnSweetClickListener confirmListener) {
+        showAlertDialog(title, "", cancelable, confirmListener);
+    }
+
+    protected void showAlertDialog(String title, String content, boolean cancelable, SweetAlertDialog.OnSweetClickListener confirmListener) {
         alertDialog = null;
         if (alertDialog == null) {
             alertDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
             alertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            alertDialog.setCancelable(cancelable);
         }
+        alertDialog.setCancelable(cancelable);
         alertDialog.setConfirmClickListener(confirmListener);
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -76,9 +81,9 @@ public class BaseFragment extends Fragment {
             }
         });
         alertDialog.setTitle(title);
-        alertDialog.setCancelText("取消");
-        alertDialog.setConfirmText("确定");
         alertDialog.setContentText(content);
+        alertDialog.setConfirmText("确定");
+        alertDialog.setCancelText("取消");
         if (!alertDialog.isShowing())
             alertDialog.show();
     }

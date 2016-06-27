@@ -3,12 +3,12 @@ package android.baodian.com.biaodiangithub;
 import android.app.Application;
 import android.baodian.com.biaodiangithub.model.AppUser;
 import android.baodian.com.biaodiangithub.util.DL;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.github.yoojia.anyversion.AnyVersion;
-import com.github.yoojia.anyversion.Version;
-import com.github.yoojia.anyversion.VersionParser;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -68,28 +68,6 @@ public class MainApp extends Application {
                 .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         ImageLoader.getInstance().init(config);
 
-        AnyVersion.init(this, new VersionParser() {
-            @Override
-            public Version onParse(String response) {
-                DL.log("onParse", "response = " + response);
-                final JSONTokener tokener = new JSONTokener(response);
-                String name = "";
-                String note = "";
-                String url = "";
-                int code = 0;
-                try {
-                    JSONObject json = (JSONObject) tokener.nextValue();
-                    name = json.getString("name");
-                    note = json.getString("note");
-                    url = json.getString("url");
-                    code = json.getInt("code");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return new Version(name, note, url, code);
-            }
-        });
     }
 
     public static MainApp getInstance() {
@@ -184,6 +162,32 @@ public class MainApp extends Application {
         setTB2(appUser.getTb2());
         setTB3(appUser.getTb3());
         setCoins(appUser.getCoins());
+    }
+
+    //版本名
+    public static String getVersionName() {
+        return getPackageInfo().versionName;
+    }
+
+    //版本号
+    public static int getVersionCode() {
+        return getPackageInfo().versionCode;
+    }
+
+    public static PackageInfo getPackageInfo() {
+        PackageInfo pi = null;
+
+        try {
+            PackageManager pm = getInstance().getApplicationContext().getPackageManager();
+            pi = pm.getPackageInfo(getInstance().getApplicationContext().getPackageName(),
+                    PackageManager.GET_CONFIGURATIONS);
+
+            return pi;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pi;
     }
 
     public void exit() {

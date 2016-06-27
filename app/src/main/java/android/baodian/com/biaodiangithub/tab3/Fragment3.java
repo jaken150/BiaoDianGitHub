@@ -71,86 +71,86 @@ public class Fragment3 extends Fragment {
     }
 
     private void httpPostQuery() {
-        try {
-            JSONObject json = new JSONObject();
-
-            json.put("phone", "13763319124");
-//            json.put("page", mPage);
-//            json.put("pagesize", mPageSize);
-            pDialog.show();
-            MainApp.getInstance().okHttpPost(AppConstant.URL_GET_TASK_REVIEW, json.toString(), new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            pDialog.dismiss();
-                            DL.toast(mContext, "网络异常");
-                        }
-                    });
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-
-                    final String resp = response.body().string();
-                    Logger.json(resp);
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            pDialog.dismiss();
-                            try {
-                                GetTaskReviewResp respObj = JSON.parseObject(resp, GetTaskReviewResp.class);
-                                if (respObj.getErrorCode() != 0) {
-//                                    pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
-//                                    pDialog.setTitleText(respObj.getErrorMsg());
-//                                    pDialog.show();
-                                    return;
-                                }
-                                DL.log(TAG, "getOrder().size() = " + respObj.getData().size());
-                                if (respObj.getData().size() > 0) {
-//                            if (mIsRefreshNew) {//下拉刷新，先清除list里的数据
-//                                mList.clear();
-//                                mAdapter.notifyDataSetChanged();
+//        try {
+//            JSONObject json = new JSONObject();
+//
+//            json.put("phone", "13763319124");
+////            json.put("page", mPage);
+////            json.put("pagesize", mPageSize);
+//            pDialog.show();
+//            MainApp.getInstance().okHttpPost(AppConstant.URL_GET_TASK_REVIEW, json.toString(), new Callback() {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//                    mHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pDialog.dismiss();
+//                            DL.toast(mContext, "网络异常");
+//                        }
+//                    });
+//                }
+//
+//                @Override
+//                public void onResponse(Call call, Response response) throws IOException {
+//
+//                    final String resp = response.body().string();
+//                    Logger.json(resp);
+//                    mHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            pDialog.dismiss();
+//                            try {
+//                                GetTaskReviewResp respObj = JSON.parseObject(resp, GetTaskReviewResp.class);
+//                                if (respObj.getErrorCode() != 0) {
+////                                    pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+////                                    pDialog.setTitleText(respObj.getErrorMsg());
+////                                    pDialog.show();
+//                                    return;
+//                                }
+//                                DL.log(TAG, "getOrder().size() = " + respObj.getData().size());
+//                                if (respObj.getData().size() > 0) {
+////                            if (mIsRefreshNew) {//下拉刷新，先清除list里的数据
+////                                mList.clear();
+////                                mAdapter.notifyDataSetChanged();
+////                            }
+//                                    if (respObj.getData().size() < mPageSize) {
+//                                        //当返回数据小于pagesize时，禁止自动加载
+//                                        mListView.disableLoadmore();
+//                                        mAdapter.enableLoadMore(false);
+//                                    } else {
+//                                        mListView.reenableLoadmore();
+//                                        mAdapter.enableLoadMore(true);
+//                                    }
+//                                    for (TaskReview item : respObj.getData()) {
+////                                    if (mIsRefreshNew && DL.DEBUGVERSION)
+////                                        orderInfo.setCardnum(orderInfo.getCardnum() + "刷新标志");
+//                                        mAdapter.insertLastInternal(mList, item);
+//                                    }
+//                                    DL.log(TAG, "getItemCount = " + mAdapter.getItemCount());
+//                                    DL.log(TAG, "getItemViewType = " + mAdapter.getItemViewType(mAdapter.getItemCount() - 1));
+//                                    if (mIsLoadmoreNow) {
+//                                        mIsLoadmoreNow = false;
+//                                    }
+//                                    if (mIsRefreshNew) {
+//                                        mIsRefreshNew = false;
+//                                        mListView.setRefreshing(false);
+//                                        mLinearLayoutManager.scrollToPosition(0);
+//                                    }
+//                                }
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                                MainApp.toast("服务器返回数据格式不正确，请稍后重试");
 //                            }
-                                    if (respObj.getData().size() < mPageSize) {
-                                        //当返回数据小于pagesize时，禁止自动加载
-                                        mListView.disableLoadmore();
-                                        mAdapter.enableLoadMore(false);
-                                    } else {
-                                        mListView.reenableLoadmore();
-                                        mAdapter.enableLoadMore(true);
-                                    }
-                                    for (TaskReview item : respObj.getData()) {
-//                                    if (mIsRefreshNew && DL.DEBUGVERSION)
-//                                        orderInfo.setCardnum(orderInfo.getCardnum() + "刷新标志");
-                                        mAdapter.insertLastInternal(mList, item);
-                                    }
-                                    DL.log(TAG, "getItemCount = " + mAdapter.getItemCount());
-                                    DL.log(TAG, "getItemViewType = " + mAdapter.getItemViewType(mAdapter.getItemCount() - 1));
-                                    if (mIsLoadmoreNow) {
-                                        mIsLoadmoreNow = false;
-                                    }
-                                    if (mIsRefreshNew) {
-                                        mIsRefreshNew = false;
-                                        mListView.setRefreshing(false);
-                                        mLinearLayoutManager.scrollToPosition(0);
-                                    }
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                MainApp.toast("服务器返回数据格式不正确，请稍后重试");
-                            }
-                        }
-
-
-                    });
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//                        }
+//
+//
+//                    });
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

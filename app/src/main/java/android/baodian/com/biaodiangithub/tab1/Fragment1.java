@@ -1,6 +1,8 @@
 package android.baodian.com.biaodiangithub.tab1;
 
+import android.baodian.com.biaodiangithub.MainApp;
 import android.baodian.com.biaodiangithub.R;
+import android.baodian.com.biaodiangithub.login.LoginActivity;
 import android.baodian.com.biaodiangithub.util.DL;
 import android.content.Context;
 import android.content.Intent;
@@ -41,17 +43,27 @@ public class Fragment1 extends Fragment {
         v.findViewById(R.id.lly_task_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, TaskInfoListActivity.class);
-                i.putExtra("type",0);
-                mContext.startActivity(i);
+                if(MainApp.getInstance().getPhone().length()>0){
+                    Intent i = new Intent(mContext, TaskInfoListActivity.class);
+                    i.putExtra("type",0);
+                    mContext.startActivity(i);
+                }else {
+                    Intent i = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(i);
+                }
             }
         });
         v.findViewById(R.id.lly_task_mine).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, TaskInfoListActivity.class);
-                i.putExtra("type",1);
-                mContext.startActivity(i);
+                if(MainApp.getInstance().getPhone().length()>0){
+                    Intent i = new Intent(mContext, TaskInfoListActivity.class);
+                    i.putExtra("type",1);
+                    mContext.startActivity(i);
+                }else {
+                    Intent i = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(i);
+                }
             }
         });
         return v;
