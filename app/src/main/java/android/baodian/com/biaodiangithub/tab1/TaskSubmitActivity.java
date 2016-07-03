@@ -175,8 +175,8 @@ public class TaskSubmitActivity extends AppCompatActivity {
                     jsonObject.put("shop", mTaskInfo.getShop());
                     jsonObject.put("status", 0);
                     jsonObject.put("item_name", mTaskInfo.getItem_name());
-                    jsonObject.put("taskuserphone", mTaskInfo.getUser_phone());
-                    jsonObject.put("submitterphone", MainApp.getInstance().getPhone());
+                    jsonObject.put("task_info_user_phone", mTaskInfo.getUser_phone());
+                    jsonObject.put("task_review_app_user_phone", MainApp.getInstance().getPhone());
                     DL.log(TAG, "mPath1 = " + mPath1);
                     if (mPath1 != null && mPath1.length() > 0)
                         jsonObject.put("image1", bitmaptoString(bitmap1));

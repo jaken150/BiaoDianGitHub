@@ -133,7 +133,7 @@ public class TaskInfoAdapter extends UltimateViewAdapter {
                         try {
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put("task_id", final_id);
-                            jsonObject.put("submitterphone", MainApp.getInstance().getPhone());
+                            jsonObject.put("task_review_app_user_phone", MainApp.getInstance().getPhone());
                             jsonObject.put("status", TaskReview.STATUS_PARTIVIPATE);
                             MainApp.getInstance().okHttpPost(AppConstant.URL_SUMBIT_TASK, jsonObject.toString(), new Callback() {
                                 @Override

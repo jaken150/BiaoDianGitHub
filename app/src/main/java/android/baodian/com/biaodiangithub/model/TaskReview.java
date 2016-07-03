@@ -5,6 +5,22 @@ public class TaskReview {
     public static int STATUS_SUBMIT = 0;
     private String task_id;
     private String shop;
+    private String item_name;
+    private String task_info_user_phone;
+    private String task_review_app_user_phone;
+    private String imageurl1;
+    private String imageurl2;
+    private String imageurl3;
+    private String updatetime;
+    private int status;
+
+    public String getTask_review_app_user_phone() {
+        return task_review_app_user_phone;
+    }
+
+    public void setTask_review_app_user_phone(String task_review_app_user_phone) {
+        this.task_review_app_user_phone = task_review_app_user_phone;
+    }
 
     public String getItem_name() {
         return item_name;
@@ -14,15 +30,13 @@ public class TaskReview {
         this.item_name = item_name;
     }
 
-    private String item_name;
-    private String taskuserphone;
-    private String submitterphone;
-    private String imageurl1;
-    private String imageurl2;
-    private String imageurl3;
-    private String updatetime;
+    public String getTask_info_user_phone() {
+        return task_info_user_phone;
+    }
 
-    private int status;
+    public void setTask_info_user_phone(String task_info_user_phone) {
+        this.task_info_user_phone = task_info_user_phone;
+    }
 
     public String getShop() {
         return shop;
@@ -48,21 +62,6 @@ public class TaskReview {
         this.task_id = task_id;
     }
 
-    public String getTaskuserphone() {
-        return taskuserphone;
-    }
-
-    public void setTaskuserphone(String taskuserphone) {
-        this.taskuserphone = taskuserphone;
-    }
-
-    public String getSubmitterphone() {
-        return submitterphone;
-    }
-
-    public void setSubmitterphone(String submitterphone) {
-        this.submitterphone = submitterphone;
-    }
 
     public String getImageurl1() {
         return imageurl1;
